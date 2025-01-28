@@ -1,0 +1,99 @@
+body {
+    background-color: #343a40;
+    color: #00ff00;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#qr-result img {
+    margin-top: 10px;
+}
+
+.nav-link {
+    color: #00ff00;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.nav-link i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #343a40;
+}
+
+.btn-primary:hover {
+    background-color: #00cc00;
+    border-color: #00cc00;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #00ff00;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.json-viewer-result {
+    white-space: pre-wrap;
+    font-family: monospace;
+    background-color: #2d2d2d;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+    max-height: 400px;
+}
+
+.json-viewer-result .json-key {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-value {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-string {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-number {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-boolean {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-null {
+    color: #00ff00;
+}
+
+.json-viewer-result .json-toggle {
+    cursor: pointer;
+    color: #00ff00;
+}
+
+.vertical-separator {
+    border-left: 1px solid #6c757d;
+    height: 100%;
+}
+
+.nav-item hr {
+    border-top: 1px solid #6c757d;
+    margin: 0.5rem 0;
+}
