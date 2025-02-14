@@ -10,16 +10,17 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-// QR Code Generation
+document.getElementById('qr-input').addEventListener('input', generateQRCode);
+
 function generateQRCode() {
-    const qrInput = document.getElementById('qr-input').value;
-    const qrResult = document.getElementById('qr-result');
-    qrResult.innerHTML = '';
-    new QRCode(qrResult, {
-        text: qrInput,
-        width: 128,
-        height: 128,
-    });
+	const qrInput = document.getElementById('qr-input').value;
+	const qrResult = document.getElementById('qr-result');
+	qrResult.innerHTML = '';
+	new QRCode(qrResult, {
+		text: qrInput,
+		width: 512,
+		height: 512,
+	});
 }
 
 // Base64 Encode/Decode
@@ -33,6 +34,15 @@ function base64Decode() {
     const input = document.getElementById('base64-input').value;
     const decoded = atob(input);
     document.getElementById('base64-result').innerText = decoded;
+}
+
+function copyToClipboard() {
+    const result = document.getElementById('base64-result').innerText;
+    navigator.clipboard.writeText(result).then(() => {
+        document.getElementById('copy-message').innerText = 'Copied to clipboard!';
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
 }
 
 // Markdown to PDF Conversion (using jsPDF, marked.js, and DOMPurify)
@@ -184,5 +194,104 @@ function convertHexToRGB() {
     }
 }
 
+// Hash Generator
+function generateHash() {
+    const inputText = document.getElementById('hash-input').value;
+    const algorithm = document.getElementById('hash-algorithm').value;
+    let hash;
+
+    switch (algorithm) {
+        case 'MD5':
+            hash = CryptoJS.MD5(inputText).toString();
+            break;
+        case 'SHA-1':
+            hash = CryptoJS.SHA1(inputText).toString();
+            break;
+        case 'SHA-256':
+            hash = CryptoJS.SHA256(inputText).toString();
+            break;
+        case 'SHA-512':
+            hash = CryptoJS.SHA512(inputText).toString();
+            break;
+        default:
+            hash = 'Unsupported algorithm';
+    }
+
+    document.getElementById('hash-result').innerText = hash;
+}
+
+function copyHashToClipboard() {
+    const hashResult = document.getElementById('hash-result').innerText;
+    navigator.clipboard.writeText(hashResult).then(() => {
+        document.getElementById('hash-copy-message').innerText = 'Copied to clipboard!';
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+
+// SSH Key Pair Generator
+function generateSSHKeyPair() {
+    const algorithm = document.getElementById('ssh-algorithm').value;
+    const bitSize = parseInt(document.getElementById('ssh-bit-size').value);
+    const keyPair = generateKeyPair(algorithm, bitSize);
+
+    document.getElementById('ssh-public-key-result').innerText = keyPair.publicKey;
+    document.getElementById('ssh-private-key-result').innerText = keyPair.privateKey;
+}
+
+function generateKeyPair(algorithm, bitSize) {
+    let keyPair;
+    switch (algorithm) {
+        case 'RSA':
+        case 'RSA-SSH2':
+            keyPair = forge.pki.rsa.generateKeyPair({ bits: bitSize, e: 0x10001 });
+            break;
+        case 'DSA':
+            keyPair = forge.pki.dsa.generateKeyPair({ bits: bitSize });
+            break;
+        case 'ECDSA':
+            const ecdsa = forge.pki.ecdsa;
+            const curve = bitSize === 256 ? 'secp256r1' : 'secp384r1';
+            keyPair = ecdsa.generateKeyPair({ namedCurve: curve });
+            break;
+        case 'ED25519':
+            keyPair = forge.pki.ed25519.generateKeyPair();
+            break;
+        default:
+            throw new Error('Unsupported algorithm');
+    }
+
+    const publicKey = forge.pki.publicKeyToPem(keyPair.publicKey);
+    const privateKey = forge.pki.privateKeyToPem(keyPair.privateKey);
+
+    return {
+        publicKey: publicKey,
+        privateKey: privateKey
+    };
+}
+
+function copyToClipboard(elementId) {
+    const result = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(result).then(() => {
+        alert('Copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+
+function downloadKey(elementId, filename) {
+    const result = document.getElementById(elementId).innerText;
+    const blob = new Blob([result], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
 // Automatically show the first tab
 showTab('qr-code');
+

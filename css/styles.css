@@ -149,3 +149,25 @@ input:focus, textarea:focus {
     border-color: #e0e0e0;
     box-shadow: 0 0 5px #e0e0e0;
 }
+
+#hash-result {
+    background-color: #2d2d2d;
+    color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    overflow: auto;
+    max-height: 200px;
+}
+
+#ssh-public-key-result, #ssh-private-key-result {
+    background-color: #2d2d2d;
+    color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    overflow: auto;
+    max-height: 200px;
+}
